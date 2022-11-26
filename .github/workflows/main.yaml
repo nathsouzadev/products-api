@@ -102,6 +102,6 @@ jobs:
     - name: Install dependencies
       run: yarn --frozen-lockfile
     
-    - name: Running application
-      run: yarn start:dev
+#     - name: Running application
+#       run: yarn start:dev
       
