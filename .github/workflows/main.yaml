@@ -80,7 +80,7 @@ jobs:
   
   deploy:
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') && github.ref == 'refs/heads/main' }}
-    needs: [test, e2e]
+    needs: [test, e2e, stage]
     runs-on: ubuntu-latest
 
     strategy:
