@@ -12,6 +12,10 @@ on:
     branches:
       - main
       - stage
+      
+env:
+  ## Sets environment variable
+  PORT: 5000
 
 jobs:
   test:
@@ -97,4 +101,7 @@ jobs:
 
     - name: Install dependencies
       run: yarn --frozen-lockfile
+    
+    - name: Running application
+      run: yarn start:dev
       
