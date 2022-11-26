@@ -59,7 +59,7 @@ jobs:
       run: yarn test:e2e
 
   stage:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && github.ref == 'refs/heads/stage' }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     needs: [test, e2e]
     runs-on: ubuntu-latest
 
