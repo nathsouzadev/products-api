@@ -41,7 +41,8 @@ jobs:
   
   e2e:
     if: needs.test.result == 'success'
-    needs: [test]
+    needs:
+      - test
     runs-on: ubuntu-latest
 
     strategy:
@@ -64,7 +65,9 @@ jobs:
 
   stage:
     if: needs.test.result == 'success' && needs.e2e.result == 'success'
-    needs: [test, e2e]
+    needs:
+      - test
+      - e2e
     runs-on: ubuntu-latest
 
     strategy:
