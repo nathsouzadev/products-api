@@ -83,7 +83,7 @@ jobs:
       run: yarn --frozen-lockfile
   
   deploy:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && github.ref == 'refs/heads/main' }}
+    if: needs.test.result == 'success' && needs.e2e.result == 'success'
     needs: [test, e2e, stage]
     runs-on: ubuntu-latest
 
