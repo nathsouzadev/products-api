@@ -33,6 +33,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Gb
+      run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)"
+    
     - name: Install dependencies
       run: yarn --frozen-lockfile
 
