@@ -3,10 +3,8 @@
 
 name: Build and deploy to production
 on:
-  pull_request:
-    types: closed
-    branches:
-      - main
+  pull_request_review:
+    types: [submitted]
       
 env:
   ## Sets environment variable
