@@ -6,12 +6,10 @@ name: Development
 on:
   push:
     branches:
-      - main
       - stage
   pull_request:
     branches:
       - main
-      - stage
       
 env:
   ## Sets environment variable
@@ -33,9 +31,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Gb
-      run: echo $GITHUB_REF
-    
     - name: Install dependencies
       run: yarn --frozen-lockfile
 
@@ -43,9 +38,6 @@ jobs:
       run: yarn test
   
   e2e:
-    if: needs.test.result == 'success'
-    needs:
-      - test
     runs-on: ubuntu-latest
 
     strategy:
@@ -67,10 +59,21 @@ jobs:
       run: yarn test:e2e
 
   stage:
-    if: needs.test.result == 'success' && needs.e2e.result == 'success'
+    if: needs.test.result == 'success' && needs.e2e.result == 'success' && $GITHUB_REF == 'refs/heads/main'
     needs:
       - test
       - e2e
+    runs-on: ubuntu-latest
+
+    steps:
+     - uses: JorgeLNJunior/render-deploy@v1.3.2
+       with:
+         service_id: ${{ secrets.RENDER_SERVICE_ID_STAGE }}
+         api_key: ${{ secrets.RENDER_API_KEY }}
+         clear_cache: true
+         wait_deploy: true
+
+  integration:
     runs-on: ubuntu-latest
 
     strategy:
@@ -87,12 +90,13 @@ jobs:
 
     - name: Install dependencies
       run: yarn --frozen-lockfile
+
+    - name: Running integration tests
+      run: yarn test:integration
   
   deploy:
     needs:
-      - test
-      - e2e
-      - stage
+      - integration
     runs-on: ubuntu-latest
 
     steps:
