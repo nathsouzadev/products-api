@@ -71,6 +71,8 @@ jobs:
          wait_deploy: true
 
   integration:
+  needs:
+      - stage
     runs-on: ubuntu-latest
 
     strategy:
