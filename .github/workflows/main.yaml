@@ -93,13 +93,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Deploy to production
-    - uses: actions/checkout@v3
-    - uses: JorgeLNJunior/render-deploy@v1.3.2
-      with:
-        service_id: ${{ secrets.RENDER_SERVICE_ID }}
-        api_key: ${{ secrets.RENDER_API_KEY }}
-        clear_cache: true
-        wait_deploy: true
+      - name: Deploy to production
+      - uses: actions/checkout@v3
+      - uses: JorgeLNJunior/render-deploy@v1.3.2
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          clear_cache: true
+          wait_deploy: true
 
       
