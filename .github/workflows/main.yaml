@@ -6,12 +6,10 @@ name: Development
 on:
   push:
     branches:
-      - main
       - stage
   pull_request:
     branches:
       - main
-      - stage
       
 env:
   ## Sets environment variable
@@ -61,47 +59,3 @@ jobs:
 
     - name: Running e2e tests
       run: yarn test:e2e
-
-  stage:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
-    needs: [test, e2e]
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install dependencies
-      run: yarn --frozen-lockfile
-  
-  deploy:
-    if: ${{ always() && contains(join(needs.*.result, ','), 'success') && github.ref == 'refs/heads/main' }}
-    needs: [test, e2e, stage]
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install dependencies
-      run: yarn --frozen-lockfile
-    
-#     - name: Running application
-#       run: yarn start:dev
-      
